@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Profile
 
-
+# Code from CI walkthrough project
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
 

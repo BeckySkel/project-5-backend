@@ -7,7 +7,7 @@ class Profile(models.Model):
     """
     Model to store extra information about the user.
     Created/updated/deleted automatically when a new user is
-    added/updated/deleted
+    added/updated/deleted via signals.py
     """
     user = models.OneToOneField(
         User,
@@ -16,6 +16,8 @@ class Profile(models.Model):
         )
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
+    created_on = models.DateField(auto_now_add=True, blank=True)
+    bio = models.TextField(blank=True)
     profile_image = models.ImageField(upload_to='images/', blank=True)
     email = models.EmailField(blank=True)
 
@@ -24,3 +26,6 @@ class Profile(models.Model):
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        ordering = ["-created_on"]
