@@ -4,16 +4,16 @@ from .models import Project
 # Code from CI walkthrough project
 class ProjectSerializer(serializers.ModelSerializer):
     creator = serializers.ReadOnlyField(source='creator.username')
-    is_owner = serializers.SerializerMethodField()
-    profile_id = serializers.ReadOnlyField(source='owner.profile.id')
+    is_creator = serializers.SerializerMethodField()
+    profile_id = serializers.ReadOnlyField(source='creator.profile.id')
 
-    def get_is_owner(self, obj):
+    def get_is_creator(self, obj):
         request = self.context['request']
-        return request.user == obj.owner
+        return request.user == obj.creator
 
     class Meta:
         model = Project
         fields = [
             'title', 'url_id', 'description', 'creator', 'created_on',
-            'updated_on', 'removed', 'private', 'is_owner', 'profile_id'
+            'updated_on', 'removed', 'private', 'is_creator', 'profile_id'
         ]
