@@ -18,7 +18,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             )
         return value
 
-
     def get_is_user(self, obj):
         request = self.context['request']
         return request.user == obj.user
