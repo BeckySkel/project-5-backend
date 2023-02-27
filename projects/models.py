@@ -15,7 +15,7 @@ class Project(models.Model):
     creator = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='recipe_posts'
+        related_name='projects'
         )
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True, blank=True, null=True)
@@ -27,3 +27,26 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Task(models.Model):
+    """
+    Model to store tasks for projects
+    """
+    summary = models.CharField(max_length=100, unique=True)
+    body = models.TextField()
+    due_date = models.DateTimeField(blank=True, null=True)
+    completed = models.BooleanField(default=False)
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='tasks'
+        )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name='tasks'
+        )
+
+    def __str__(self):
+        return f'{self.summary} by {self.creator}'
