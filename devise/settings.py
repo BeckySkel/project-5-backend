@@ -131,7 +131,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'devise.wsgi.application'
+# WSGI_APPLICATION = 'devise.wsgi.application'
 
 
 # Database
