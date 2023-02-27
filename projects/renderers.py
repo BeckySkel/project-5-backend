@@ -22,7 +22,7 @@ class MyBrowsableAPIRenderer(BrowsableAPIRenderer):
     def get_rendered_html_form(self, data, view, method, request):
         """
         {
-            "detail": "Not found.
+            "detail": "Not found."
         }
         """
         try:

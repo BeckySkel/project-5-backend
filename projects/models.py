@@ -42,11 +42,14 @@ class Task(models.Model):
         on_delete=models.CASCADE,
         related_name='tasks'
         )
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
     project = models.ForeignKey(
         Project,
         on_delete=models.CASCADE,
         related_name='tasks'
         )
+    removed = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.summary} by {self.creator}'

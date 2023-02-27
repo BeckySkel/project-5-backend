@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project
+from .models import Project, Task
 
 
 # Code from CI walkthrough project
@@ -21,4 +21,23 @@ class ProjectSerializer(serializers.ModelSerializer):
             'id', 'title', 'url_id', 'description', 'creator', 'created_on',
             'updated_on', 'removed', 'private', 'is_creator', 'profile_id',
             # 'profile_image'
+        ]
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    creator = serializers.ReadOnlyField(source='creator.username')
+    is_creator = serializers.SerializerMethodField()
+    profile_id = serializers.ReadOnlyField(source='creator.profile.id')
+    project = serializers.ReadOnlyField(source='project.title')
+
+    def get_is_creator(self, obj):
+        request = self.context['request']
+        return request.user == obj.creator
+
+    class Meta:
+        model = Task
+        fields = [
+            'id', 'summary', 'body', 'due_date', 'creator', 'created_on',
+            'updated_on', 'project', 'removed', 'completed', 'is_creator',
+            'profile_id',
         ]
