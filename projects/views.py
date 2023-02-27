@@ -7,6 +7,8 @@ from django.http import Http404
 from devise.permissions import IsOwnerOrReadOnly
 
 
+# Switch to generics??
+
 # Code from CI walkthrough project
 class ProjectList(APIView):
     """
@@ -79,9 +81,6 @@ class ProjectDetail(APIView):
         return Response(
             status=status.HTTP_204_NO_CONTENT
         )
-
-
-
 
 
 class TaskList(APIView):
