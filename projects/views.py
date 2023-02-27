@@ -38,7 +38,7 @@ class ProjectList(APIView):
                 serializer.data,
                 status=status.HTTP_201_CREATED
                 )
-        return Response(serializer.errrors, status=HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 class ProjectDetail(APIView):
@@ -111,7 +111,7 @@ class TaskList(APIView):
                 serializer.data,
                 status=status.HTTP_201_CREATED
                 )
-        return Response(serializer.errrors, status=HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 class TaskDetail(APIView):
