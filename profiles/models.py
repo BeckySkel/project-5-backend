@@ -24,7 +24,6 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=50, blank=True)
     created_on = models.DateField(auto_now_add=True, blank=True)
     bio = models.TextField(blank=True)
-    profile_image = models.ImageField(upload_to='images/', blank=True)
     email = models.EmailField(blank=True)
 
     def __str__(self):
