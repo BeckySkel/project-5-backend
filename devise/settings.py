@@ -85,7 +85,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'corsheaders',
-
     'profiles',
     'projects',
 ]
@@ -110,6 +109,8 @@ else:
     CORS_ALLOWED_ORIGIN_REGEXES = [
         r"^https://.*\.gitpod\.io$",
     ]
+
+CORS_ALLOW_ALL_ORIGINS: True
 
 CORS_ALLOW_CREDENTIALS = True
 
