@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 
 
+# from django.contrib.auth.models import AbstractUser
+
+# class User(AbstractUser):
+#     email = models.EmailField(_('email address'), blank=False)
+
+
 class Profile(models.Model):
     """
     Model to store extra information about the user.
