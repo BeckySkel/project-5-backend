@@ -54,6 +54,11 @@ REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'devise.serializers.CurrentUserSerializer'
 }
 
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
