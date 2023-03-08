@@ -7,40 +7,11 @@ from django.http import Http404
 from devise.permissions import IsOwnerOrReadOnly
 
 
-# Code from CI walkthrough project
-# class ProjectList(APIView):
-#     """
-#     List all projects
-#     """
-#     serializer_class = ProjectSerializer
-#     permission_classes = [
-#         permissions.IsAuthenticatedOrReadOnly
-#     ]
-
-#     def get(self, request):
-#         projects = Project.objects.all()
-#         serializer = ProjectSerializer(
-#             projects,
-#             many=True,
-#             context={'request': request}
-#             )
-#         return Response(serializer.data)
-
-#     def post(self, request):
-#         serializer = ProjectSerializer(
-#             data=request.data, context={'request': request}
-#         )
-#         if serializer.is_valid():
-#             serializer.save(creator=request.user)
-#             return Response(
-#                 serializer.data,
-#                 status=status.HTTP_201_CREATED
-#                 )
-#         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
-
+# Code inspired by CI walkthrough project
 class ProjectList(generics.ListCreateAPIView):
-    """"""
+    """
+    List projects, can create new if logged in
+    """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = ProjectSerializer
     queryset = Project.objects.all()
@@ -49,118 +20,34 @@ class ProjectList(generics.ListCreateAPIView):
         serializer.save(creator=self.request.user)
 
 
+# Code inspired by CI walkthrough project
 class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
-    """"""
+    """
+    Retrieve project and edit or delete if owner
+    """
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = ProjectSerializer
     queryset = Project.objects.all()
 
+
+# Code inspired by CI walkthrough project
+class TaskList(generics.ListCreateAPIView):
+    """
+    List tasks, can create new if logged in
+    """
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = TaskSerializer
+    queryset = Task.objects.all()
+
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
 
-# class ProjectDetail(APIView):
-#     """
-#     """
-#     serializer_class = ProjectSerializer
-#     permission_classes = [IsOwnerOrReadOnly]
 
-#     def get_object(self, pk):
-#         try:
-#             project = Project.objects.get(pk=pk)
-#             self.check_object_permissions(self.request, project)
-#             return project
-#         except Project.DoesNotExist:
-#             raise Http404
-
-#     def get(self, request, pk):
-#         project = self.get_object(pk)
-#         serializer = ProjectSerializer(
-#             project,
-#             context={'request': request}
-#             )
-#         return Response(serializer.data)
-
-#     def put(self, request, pk):
-#         project = self.get_object(pk)
-#         serializer = ProjectSerializer(
-#             project,
-#             data=request.data,
-#             context={'request': request}
-#             )
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#     def delete(self, request, pk):
-#         project = self.get_object(pk)
-#         project.delete()
-#         return Response(
-#             status=status.HTTP_204_NO_CONTENT
-#         )
-
-
-class TaskList(APIView):
+# Code inspired by CI walkthrough project
+class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    List all tasks
+    Retrieve project and edit or delete if owner
     """
-    serializer_class = TaskSerializer
-    permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly
-    ]
-
-    def get(self, request):
-        tasks = Task.objects.all()
-        serializer = TaskSerializer(
-            tasks,
-            many=True,
-            context={'request': request}
-            )
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = TaskSerializer(
-            data=request.data, context={'request': request}
-        )
-        if serializer.is_valid():
-            serializer.save(creator=request.user)
-            return Response(
-                serializer.data,
-                status=status.HTTP_201_CREATED
-                )
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
-
-class TaskDetail(APIView):
-    """
-    """
-    serializer_class = TaskSerializer
     permission_classes = [IsOwnerOrReadOnly]
-
-    def get_object(self, pk):
-        try:
-            task = Task.objects.get(pk=pk)
-            self.check_object_permissions(self.request, task)
-            return task
-        except Task.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk):
-        task = self.get_object(pk)
-        serializer = TaskSerializer(task, context={'request': request})
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        task = self.get_object(pk)
-        serializer = TaskSerializer(task, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        task = self.get_object(pk)
-        task.delete()
-        return Response(
-            status=status.HTTP_204_NO_CONTENT
-        )
+    serializer_class = TaskSerializer
+    queryset = Task.objects.all()

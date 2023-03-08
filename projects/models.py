@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 class Project(models.Model):
     """
     Model to store user-created projects
+    Links to creator (user instance)
     """
-    title = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=100)
     url_id = models.UUIDField(
          default=uuid.uuid4,
          editable=False)
@@ -17,10 +18,13 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='projects'
         )
+    contributors = models.ManyToManyField(
+        User,
+        related_name='contrib_projects',
+        blank=True
+    )
     created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True, blank=True, null=True)
-    removed = models.BooleanField(default=False)
-    private = models.BooleanField(default=False)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['title']
@@ -32,15 +36,16 @@ class Project(models.Model):
 class Task(models.Model):
     """
     Model to store tasks for projects
+    Links to creator (user instance)
     """
-    summary = models.CharField(max_length=100, unique=True)
+    summary = models.CharField(max_length=100)
     body = models.TextField()
     due_date = models.DateTimeField(blank=True, null=True)
     completed = models.BooleanField(default=False)
     creator = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='tasks'
+        related_name='created_tasks'
         )
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -49,7 +54,6 @@ class Task(models.Model):
         on_delete=models.CASCADE,
         related_name='tasks'
         )
-    removed = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.summary} by {self.creator}'

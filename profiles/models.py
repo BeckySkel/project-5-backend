@@ -16,9 +16,8 @@ class Profile(models.Model):
         )
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
-    created_on = models.DateField(auto_now_add=True, blank=True)
+    created_on = models.DateField(auto_now_add=True)
     bio = models.TextField(blank=True)
-    # email = models.EmailField(blank=True)
 
     def __str__(self):
         return self.user.username

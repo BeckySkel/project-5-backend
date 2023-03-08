@@ -17,6 +17,7 @@ class ProfileList(generics.ListAPIView):
     queryset = Profile.objects.all()
 
 
+# Code from CI walkthrough project
 class ProfileDetail(generics.RetrieveUpdateAPIView):
     """
     Retrieve profile and update if owner
