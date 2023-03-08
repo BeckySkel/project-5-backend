@@ -7,6 +7,6 @@ class ProfileAdmin(admin.ModelAdmin):
     """
     Admin for Profile model
     """
-    list_display = ('user', 'full_name', 'email')
-    search_fields = ['first_name', 'last_name', 'email']
+    list_display = ('user', 'full_name')
+    search_fields = ['first_name', 'last_name']
     list_filter = ('created_on',)

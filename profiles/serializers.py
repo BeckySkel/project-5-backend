@@ -2,18 +2,18 @@ from rest_framework import serializers
 from .models import Profile
 
 
-# Code from CI walkthrough project
+# Code inspired by CI walkthrough project
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
-    is_user = serializers.SerializerMethodField()
+    is_current_user = serializers.SerializerMethodField()
 
-    def get_is_user(self, obj):
+    def get_is_current_user(self, obj):
         request = self.context['request']
         return request.user == obj.user
 
     class Meta:
         model = Profile
         fields = [
-            'id', 'user', 'first_name', 'last_name', 'email',
-            'is_user'
+            'id', 'user', 'first_name', 'last_name', 'created_on',
+            'bio', 'is_current_user'
         ]
