@@ -25,5 +25,7 @@ class Profile(models.Model):
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
 
+    # def count_projects
+
     class Meta:
         ordering = ["-created_on"]

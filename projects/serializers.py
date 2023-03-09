@@ -6,11 +6,10 @@ class ProjectSerializer(serializers.ModelSerializer):
     creator = serializers.ReadOnlyField(source='creator.username')
     is_creator = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='creator.profile.id')
+    is_contributor = serializers.SerializerMethodField()
 
     def validate_contributors(self, value):
         request = self.context['request']
-        if 1 in (100, 200):
-            raise serializers.ValidationError('1 in 100')
         if request.user in value:
             raise serializers.ValidationError('Cannot add self as contributor')
         return value
@@ -19,11 +18,16 @@ class ProjectSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.creator
 
+    def get_is_contributor(self, obj):
+        request = self.context['request']
+        return request.user in obj.contributors.all()
+
     class Meta:
         model = Project
         fields = [
             'id', 'title', 'url_id', 'description', 'creator', 'contributors',
-            'created_on', 'updated_on', 'is_creator', 'profile_id'
+            'created_on', 'updated_on', 'is_creator', 'profile_id',
+            'is_contributor'
         ]
 
 
