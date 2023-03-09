@@ -6,7 +6,7 @@ from django.http import Http404
 from django.db.models import Count
 from rest_framework import status, permissions, generics, filters
 from devise.permissions import IsOwnerOrReadOnly
-
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Code from CI walkthrough project
 class ProfileList(generics.ListAPIView):
@@ -21,7 +21,21 @@ class ProfileList(generics.ListAPIView):
     ).order_by('-created_on')
 
     filter_backends = [
-        filters.OrderingFilter
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend
+    ]
+
+    filterset_fields = [
+        # Creator of projects selected user is a contributor for
+        'user__projects__contributors__profile',
+        # Contributors to selected user's projects
+        'user__contrib_projects__creator__profile'
+    ]
+
+    search_fields = [
+        'first_name',
+        'last_name'
     ]
 
     ordering_fields = [
