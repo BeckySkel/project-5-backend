@@ -5,5 +5,5 @@ from rest_framework.response import Response
 @api_view()
 def root_route(request):
     return Response({
-        "message": "Welcome to the Devise API"
+        "message": "Welcome to the Devise DRF API"
     })

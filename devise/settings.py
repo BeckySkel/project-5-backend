@@ -37,6 +37,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%d %b %Y, %H:%M',
+    'DATE_FORMAT': '%d %b %Y',
 }
 
 if 'DEV' not in os.environ:
@@ -49,6 +50,7 @@ REST_USE_JWT = True
 JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+JWT_AUTH_SAMESITE = 'None'
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'devise.serializers.CurrentUserSerializer'
@@ -58,35 +60,15 @@ REST_AUTH_SERIALIZERS = {
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = 'DEV' in os.environ
-DEBUG = True
+DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
 ]
-
-if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS = [
-        os.environ.get('CLIENT_ORIGIN')
-    ]
-else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^https://.*\.gitpod\.io$",
-    ]
-
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(
-        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
-    ).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
-
-CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -126,6 +108,26 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://.*\.gitpod\.io$",
+    ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# if 'CLIENT_ORIGIN_DEV' in os.environ:
+#     extracted_url = re.match(
+#         r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
+#     ).group(0)
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+#     ]
+
 ROOT_URLCONF = 'devise.urls'
 
 TEMPLATES = [
@@ -144,7 +146,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'devise.wsgi.application'
+WSGI_APPLICATION = 'devise.wsgi.application'
 
 
 # Database
