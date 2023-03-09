@@ -7,6 +7,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     is_creator = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='creator.profile.id')
     is_contributor = serializers.SerializerMethodField()
+    task_count = serializers.SerializerMethodField()
 
     def validate_contributors(self, value):
         request = self.context['request']
@@ -22,12 +23,15 @@ class ProjectSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user in obj.contributors.all()
 
+    def get_task_count(self, obj):
+        return obj.tasks.all().count()
+
     class Meta:
         model = Project
         fields = [
-            'id', 'title', 'url_id', 'description', 'creator', 'contributors',
-            'created_on', 'updated_on', 'is_creator', 'profile_id',
-            'is_contributor'
+            'id', 'url_id', 'title', 'description', 'creator', 'profile_id',
+            'contributors', 'task_count', 'created_on', 'updated_on',
+            'is_creator', 'is_contributor'
         ]
 
 
