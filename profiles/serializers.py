@@ -4,6 +4,11 @@ from projects.serializers import ProjectSerializer
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Profile model.
+    Checks if profile belongs to current user.
+    Displays a created projects list.
+    """
     user = serializers.ReadOnlyField(source='user.username')
     is_current_user = serializers.SerializerMethodField()
     created_projects_count = serializers.ReadOnlyField()
