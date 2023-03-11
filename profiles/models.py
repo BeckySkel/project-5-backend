@@ -18,14 +18,13 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=50, blank=True)
     created_on = models.DateField(auto_now_add=True)
     bio = models.TextField(blank=True)
+    menu_open = models.BooleanField(default=True)
 
     def __str__(self):
         return self.user.username
 
-    def full_name(self):
-        return f'{self.first_name} {self.last_name}'
-
-    # def count_projects
+    # def full_name(self):
+    #     return f'{self.first_name} {self.last_name}'
 
     class Meta:
         ordering = ["-created_on"]
