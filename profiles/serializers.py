@@ -28,5 +28,5 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'user', 'first_name', 'last_name', 'created_on',
             'bio', 'is_current_user', 'created_projects_count',
-            'contrib_projects_count', 'created_projects_list'
+            'contrib_projects_count', 'created_projects_list', 'menu_open'
         ]
