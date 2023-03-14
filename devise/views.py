@@ -53,4 +53,4 @@ class CustomConfirmEmailView(ConfirmEmailView):
         user = User.objects.get(email=self.object.email_address.email)
         # redirect_url = reverse('account_login', args=(user.id,))
         redirect_url = reverse('account_login')
-        return redirect(redirect_url)
+        return redirect('/')
