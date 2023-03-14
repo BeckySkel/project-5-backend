@@ -6,7 +6,8 @@ from .settings import (
 )
 from allauth.account.views import ConfirmEmailView
 from django.contrib.auth.models import User
-from django.urls import reverse, redirect
+from django.urls import reverse
+from django.shortcuts import redirect
 # from django.contrib.auth import get_user_model
 
 
