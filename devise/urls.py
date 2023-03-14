@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from allauth.account.views import ConfirmEmailView
-from .views import root_route, logout_route
+# from allauth.account.views import ConfirmEmailView
+from .views import root_route, logout_route, CustomConfirmEmailView
 from dj_rest_auth.registration.views import VerifyEmailView
 from dj_rest_auth.views import LoginView
 
@@ -29,7 +29,7 @@ urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path(
         'dj-rest-auth/registration/account-confirm-email/<str:key>/',
-        ConfirmEmailView.as_view(),
+        CustomConfirmEmailView.as_view(),
     ),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path(
