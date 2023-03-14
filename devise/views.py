@@ -5,6 +5,7 @@ from .settings import (
     JWT_AUTH_SECURE,
 )
 from allauth.account.views import ConfirmEmailView
+from django.contrib.auth.models import User
 # from django.contrib.auth import get_user_model
 
 
@@ -47,6 +48,6 @@ class CustomConfirmEmailView(ConfirmEmailView):
             self.object = self.get_object()
         except Http404:
             self.object = None
-        user = get_user_model().objects.get(email=self.object.email_address.email)
+        user = User.objects.get(email=self.object.email_address.email)
         redirect_url = reverse('user', args=(user.id,))
         return redirect(redirect_url)
