@@ -53,7 +53,28 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
 
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+if 'DEV' in os.environ:
+    ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/dj-rest-auth/login/'
+    LOGIN_URL = '/dj-rest-auth/login/'
+else:
+    ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'dj-rest-auth/login/'
+    LOGIN_URL = '/dj-rest-auth/login/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_PORT = 587
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'devise.serializers.CurrentUserSerializer'

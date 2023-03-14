@@ -4,6 +4,8 @@ from .settings import (
     JWT_AUTH_COOKIE, JWT_AUTH_REFRESH_COOKIE, JWT_AUTH_SAMESITE,
     JWT_AUTH_SECURE,
 )
+# from allauth.account.views import ConfirmEmailView
+# from django.contrib.auth import get_user_model
 
 
 @api_view()
@@ -36,3 +38,15 @@ def logout_route(request):
         secure=JWT_AUTH_SECURE,
     )
     return response
+
+
+# https://stackoverflow.com/questions/29725369/improperlyconfigured-at-rest-auth-registration-account-confirm-email
+# class CustomConfirmEmailView(ConfirmEmailView):
+#     def get(self, *args, **kwargs):
+#         try:
+#             self.object = self.get_object()
+#         except Http404:
+#             self.object = None
+#         user = get_user_model().objects.get(email=self.object.email_address.email)
+#         redirect_url = reverse('user', args=(user.id,))
+#         return redirect(redirect_url)
