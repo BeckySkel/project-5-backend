@@ -59,12 +59,8 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
-if 'DEV' in os.environ:
-    ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/dj-rest-auth/login/'
-    LOGIN_URL = '/dj-rest-auth/login/'
-else:
-    ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'dj-rest-auth/login/'
-    LOGIN_URL = '/dj-rest-auth/login/'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'CLIENT_ORIGIN'
+# LOGIN_URL = os.environ.get('CLIENT_ORIGIN')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
