@@ -50,5 +50,6 @@ class CustomConfirmEmailView(ConfirmEmailView):
         except Http404:
             self.object = None
         user = User.objects.get(email=self.object.email_address.email)
-        redirect_url = reverse('user', args=(user.id,))
+        # redirect_url = reverse('account_login', args=(user.id,))
+        redirect_url = reverse('account_login')
         return redirect(redirect_url)
