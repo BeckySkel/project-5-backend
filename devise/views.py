@@ -9,7 +9,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.http import Http404
 from django.shortcuts import redirect
-# from django.contrib.auth import get_user_model
+from . import settings
+from allauth.account.adapter import get_adapter
 
 
 @api_view()
@@ -44,13 +45,21 @@ def logout_route(request):
     return response
 
 
+# Custom confirm email view
 class CustomConfirmEmailView(ConfirmEmailView):
     def get(self, *args, **kwargs):
         try:
             self.object = self.get_object()
+            if settings.ACCOUNT_CONFIRM_EMAIL_ON_GET:
+                return self.post(*args, **kwargs)
         except Http404:
             self.object = None
-        user = User.objects.get(email=self.object.email_address.email)
-        # redirect_url = reverse('account_login', args=(user.id,))
-        # redirect_url = reverse('account_login')
         return redirect('/')
+
+    def get_redirect_url(self):
+        # print(get_adapter(self.request).get_email_confirmation_redirect_url(self.request))
+
+        # return get_adapter(self.request).get_email_confirmation_redirect_url(
+        #     self.request
+        # )
+        return ('/')

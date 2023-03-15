@@ -7,7 +7,8 @@ from allauth.account.signals import email_confirmed
 
 @receiver(email_confirmed)
 def email_confirmed_(request, email_address, **kwargs):
-    profile = email_address.user
+    profile = email_address.user.profile
+    print(profile)
     profile.email_verified = True
 
     profile.save()

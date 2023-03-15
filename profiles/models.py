@@ -19,6 +19,7 @@ class Profile(models.Model):
     created_on = models.DateField(auto_now_add=True)
     bio = models.TextField(blank=True)
     menu_open = models.BooleanField(default=True)
+    email_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
