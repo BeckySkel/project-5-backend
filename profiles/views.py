@@ -8,7 +8,7 @@ from rest_framework import status, permissions, generics, filters
 from devise.permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 
-# Code from CI walkthrough project
+
 class ProfileList(generics.ListAPIView):
     """
     Lists all profiles
@@ -45,7 +45,6 @@ class ProfileList(generics.ListAPIView):
     ]
 
 
-# Code from CI walkthrough project
 class ProfileDetail(generics.RetrieveUpdateAPIView):
     """
     Retrieve profile instance and update if owner

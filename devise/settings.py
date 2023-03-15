@@ -55,8 +55,6 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'http://localhost:8000/dj-rest-auth/login/'
-# LOGIN_URL = 'http://localhost:8000/dj-rest-auth/login/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -73,7 +71,7 @@ AUTHENTICATION_BACKENDS = (
    "allauth.account.auth_backends.AuthenticationBackend"
 )
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "http://localhost:8000", os.environ.get('ALLOWED_HOST')]
+# CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "http://localhost:8000", os.environ.get('ALLOWED_HOST')]
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'devise.serializers.CurrentUserSerializer'
@@ -86,8 +84,8 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = 'DEV' in os.environ
-DEBUG = True
+DEBUG = 'DEV' in os.environ
+# DEBUG = True
 
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
@@ -149,7 +147,7 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
 ROOT_URLCONF = 'devise.urls'
 
 
-# https://medium.com/@etentuk/django-rest-framework-how-to-edit-reset-password-link-in-dj-rest-auth-with-dj-allauth-installed-c54bae36504e
+# Help with updating email templates from https://medium.com/@etentuk/django-rest-framework-how-to-edit-reset-password-link-in-dj-rest-auth-with-dj-allauth-installed-c54bae36504e
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

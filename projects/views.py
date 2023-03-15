@@ -9,6 +9,7 @@ from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 
 
+# Projects
 class ProjectList(generics.ListCreateAPIView):
     """
     List projects, can create new if logged in
@@ -60,6 +61,7 @@ class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
     )
 
 
+# Tasks
 class TaskList(generics.ListCreateAPIView):
     """
     List tasks, can create new if logged in

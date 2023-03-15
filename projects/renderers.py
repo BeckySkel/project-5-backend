@@ -1,8 +1,8 @@
-# Code to hide PUT form when object does not exist from
-# https://forum.djangoproject.com/t/django-rest-framework-404-not-found-put-delete/7980
 from rest_framework.renderers import BrowsableAPIRenderer
 
 
+# Code to hide PUT form when object does not exist from
+# https://forum.djangoproject.com/t/django-rest-framework-404-not-found-put-delete/7980
 class MyBrowsableAPIRenderer(BrowsableAPIRenderer):
 
     """

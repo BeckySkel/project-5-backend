@@ -14,11 +14,14 @@ class ProfileSerializer(serializers.ModelSerializer):
     created_projects_count = serializers.ReadOnlyField()
     contrib_projects_count = serializers.ReadOnlyField()
     created_projects_list = serializers.SerializerMethodField()
+    email_verified = serializers.ReadOnlyField()
+    menu_open = serializers.ReadOnlyField()
 
     def get_is_current_user(self, obj):
         request = self.context['request']
         return request.user == obj.user
 
+    # Help from
     # https://stackoverflow.com/questions/14639106/how-can-i-retrieve-a-list-of-field-for-all-objects-in-django
     def get_created_projects_list(self, obj):
         return obj.user.projects.all().values_list('title', flat=True)

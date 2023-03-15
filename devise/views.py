@@ -13,6 +13,7 @@ from . import settings
 from allauth.account.adapter import get_adapter
 
 
+# Code from CI 'Moments' walkthrough project
 @api_view()
 def root_route(request):
     return Response({
@@ -20,7 +21,7 @@ def root_route(request):
     })
 
 
-# dj-rest-auth logout view fix from CI
+# Code from CI 'Moments' walkthrough project
 @api_view(['POST'])
 def logout_route(request):
     response = Response()
@@ -45,8 +46,11 @@ def logout_route(request):
     return response
 
 
-# Custom confirm email view
 class CustomConfirmEmailView(ConfirmEmailView):
+    """
+    Customising the ConfirmEmailView provided with django-allauth
+    to verify email on GET and redirect to home instead of allauth templates
+    """
     def get(self, *args, **kwargs):
         try:
             self.object = self.get_object()
@@ -57,8 +61,6 @@ class CustomConfirmEmailView(ConfirmEmailView):
         return redirect('/')
 
     def get_redirect_url(self):
-        # print(get_adapter(self.request).get_email_confirmation_redirect_url(self.request))
-
         # return get_adapter(self.request).get_email_confirmation_redirect_url(
         #     self.request
         # )
