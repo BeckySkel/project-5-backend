@@ -62,8 +62,8 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = os.environ.get('CLIENT_ORIGIN')
 LOGIN_URL = os.environ.get('CLIENT_ORIGIN')
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
@@ -150,6 +150,8 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
 
 ROOT_URLCONF = 'devise.urls'
 
+
+# https://medium.com/@etentuk/django-rest-framework-how-to-edit-reset-password-link-in-dj-rest-auth-with-dj-allauth-installed-c54bae36504e
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
