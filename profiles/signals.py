@@ -2,6 +2,15 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Profile
+from allauth.account.signals import email_confirmed
+
+
+@receiver(email_confirmed)
+def email_confirmed_(request, email_address, **kwargs):
+    profile = email_address.user
+    profile.email_verified = True
+
+    profile.save()
 
 
 # code to connect Profile database to User from tutorial at

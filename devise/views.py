@@ -7,6 +7,7 @@ from .settings import (
 from allauth.account.views import ConfirmEmailView
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.http import Http404
 from django.shortcuts import redirect
 # from django.contrib.auth import get_user_model
 
@@ -43,7 +44,6 @@ def logout_route(request):
     return response
 
 
-# https://stackoverflow.com/questions/29725369/improperlyconfigured-at-rest-auth-registration-account-confirm-email
 class CustomConfirmEmailView(ConfirmEmailView):
     def get(self, *args, **kwargs):
         try:
@@ -52,5 +52,5 @@ class CustomConfirmEmailView(ConfirmEmailView):
             self.object = None
         user = User.objects.get(email=self.object.email_address.email)
         # redirect_url = reverse('account_login', args=(user.id,))
-        redirect_url = reverse('account_login')
+        # redirect_url = reverse('account_login')
         return redirect('/')

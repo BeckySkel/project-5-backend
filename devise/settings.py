@@ -59,13 +59,13 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
-# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = os.environ.get('CLIENT_ORIGIN')
-# LOGIN_URL = os.environ.get('CLIENT_ORIGIN')
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'http://localhost:8000/dj-rest-auth/login/'
+LOGIN_URL = 'http://localhost:8000/dj-rest-auth/login/'
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
@@ -73,6 +73,13 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 EMAIL_PORT = 587
+
+AUTHENTICATION_BACKENDS = (
+   "django.contrib.auth.backends.ModelBackend",
+   "allauth.account.auth_backends.AuthenticationBackend"
+)
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'devise.serializers.CurrentUserSerializer'
