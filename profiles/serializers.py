@@ -15,7 +15,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     contrib_projects_count = serializers.ReadOnlyField()
     created_projects_list = serializers.SerializerMethodField()
     email_verified = serializers.ReadOnlyField()
-    menu_open = serializers.ReadOnlyField()
+    # menu_open = serializers.ReadOnlyField()
 
     def get_is_current_user(self, obj):
         request = self.context['request']
