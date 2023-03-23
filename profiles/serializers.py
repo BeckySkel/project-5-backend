@@ -13,6 +13,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     is_current_user = serializers.SerializerMethodField()
     created_projects_count = serializers.ReadOnlyField()
     contrib_projects_count = serializers.ReadOnlyField()
+    created_projects = serializers.SerializerMethodField()
     created_projects_list = serializers.SerializerMethodField()
     email_verified = serializers.ReadOnlyField()
     # menu_open = serializers.ReadOnlyField()
@@ -26,11 +27,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_created_projects_list(self, obj):
         return obj.user.projects.all().values_list('title', flat=True)
 
+    def get_created_projects(self, obj):
+        return obj.user.projects.all().values_list('pk', flat=True)
+        print(obj.user.projects)
+
     class Meta:
         model = Profile
         fields = [
             'id', 'user', 'first_name', 'last_name', 'created_on',
-            'bio', 'is_current_user', 'created_projects_count',
+            'bio', 'is_current_user', 'created_projects_count', 'created_projects',
             'contrib_projects_count', 'created_projects_list', 'menu_open',
             'email_verified'
         ]
