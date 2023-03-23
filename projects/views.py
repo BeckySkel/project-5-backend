@@ -82,7 +82,9 @@ class TaskList(generics.ListCreateAPIView):
         # Tasks submitted to the selected user's created projects
         'project__creator__profile',
         # Tasks submitted to projects the selected user is a contributor on
-        'project__contributors__profile'
+        'project__contributors__profile',
+        # Tasks in the selected project
+        'project',
     ]
 
     search_fields = [
