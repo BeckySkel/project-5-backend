@@ -29,7 +29,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_created_projects(self, obj):
         return obj.user.projects.all().values_list('pk', flat=True)
-        print(obj.user.projects)
 
     class Meta:
         model = Profile
