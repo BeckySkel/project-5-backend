@@ -14,7 +14,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     profile_id = serializers.ReadOnlyField(source='creator.profile.id')
     is_contributor = serializers.SerializerMethodField()
     task_count = serializers.ReadOnlyField()
-    profile_ids = serializers.SerializerMethodField()
+    profile_names = serializers.SerializerMethodField()
     task_ids = serializers.SerializerMethodField()
 
     def validate_contributors(self, value):
@@ -23,10 +23,10 @@ class ProjectSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Cannot add self as contributor')
         return value
 
-    def get_profile_ids(self, obj):
+    def get_profile_names(self, obj):
         contribs = obj.contributors.all()
-        profile_ids = [c.profile.id for c in contribs]
-        return profile_ids
+        profile_names = [c.username for c in contribs]
+        return profile_names
 
     def get_is_creator(self, obj):
         request = self.context['request']
@@ -45,7 +45,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = [
             'id', 'url_id', 'title', 'description', 'creator', 'profile_id',
-            'contributors', 'profile_ids', 'task_count', 'task_ids',
+            'contributors', 'profile_names', 'task_count', 'task_ids',
             'created_on', 'updated_on', 'is_creator', 'is_contributor'
         ]
 
