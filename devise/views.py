@@ -58,10 +58,11 @@ class CustomConfirmEmailView(ConfirmEmailView):
                 return self.post(*args, **kwargs)
         except Http404:
             self.object = None
-        return redirect('/')
+        return Response({
+            "message": "There was an error with this link"
+        })
 
     def get_redirect_url(self):
-        # return get_adapter(self.request).get_email_confirmation_redirect_url(
-        #     self.request
-        # )
-        return ('/')
+        return Response({
+            "message": "Email confirmed"
+        })
