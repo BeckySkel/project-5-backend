@@ -55,5 +55,8 @@ class Task(models.Model):
         related_name='tasks'
         )
 
+    class Meta:
+        ordering = ['-updated_on']
+
     def __str__(self):
         return f'{self.summary} by {self.creator}'
