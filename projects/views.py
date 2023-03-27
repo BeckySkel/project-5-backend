@@ -85,6 +85,8 @@ class TaskList(generics.ListCreateAPIView):
         'project__contributors__profile',
         # Tasks in the selected project
         'project',
+        # Tasks based on completed status
+        'completed',
     ]
 
     search_fields = [
