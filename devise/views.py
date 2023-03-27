@@ -52,17 +52,16 @@ class CustomConfirmEmailView(ConfirmEmailView):
     to verify email on GET and redirect to home instead of allauth templates
     """
     def get(self, *args, **kwargs):
-        try:
-            self.object = self.get_object()
-            if settings.ACCOUNT_CONFIRM_EMAIL_ON_GET:
-                return self.post(*args, **kwargs)
-        except Http404:
-            self.object = None
-        return Response({
-            "message": "There was an error with this link"
-        })
+        # try:
+        #     self.object = self.get_object()
+        #     if settings.ACCOUNT_CONFIRM_EMAIL_ON_GET:
+        #         return self.post(*args, **kwargs)
+        # except Http404:
+        #     self.object = None
+        # return Http404
+        self.object = self.get_object()
+        if settings.ACCOUNT_CONFIRM_EMAIL_ON_GET:
+            return self.post(*args, **kwargs)
 
     def get_redirect_url(self):
-        return Response({
-            "message": "Email confirmed"
-        })
+        return redirect('/')
