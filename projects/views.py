@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from .models import Project, Task
 from .serializers import ProjectSerializer, TaskSerializer
 from django.http import Http404
-from devise.permissions import IsOwnerOrReadOnly
+from devise.permissions import IsOwnerOrReadOnly, IsContribOrReadOnly
 from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -106,6 +106,6 @@ class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve project and edit or delete if owner
     """
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsContribOrReadOnly]
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
