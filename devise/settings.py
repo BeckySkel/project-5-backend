@@ -115,6 +115,7 @@ INSTALLED_APPS = [
 
     'profiles',
     'projects',
+    'contributors',
 ]
 SITE_ID = 1
 

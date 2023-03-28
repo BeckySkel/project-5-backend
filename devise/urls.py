@@ -39,6 +39,7 @@ urlpatterns = [
     ),
     path('', include('profiles.urls')),
     path('', include('projects.urls')),
+    path('', include('contributors.urls')),
 ]
 
 # Help with registration endpoints
