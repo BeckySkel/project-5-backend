@@ -1,7 +1,8 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
 from devise.permissions import ContributorDeletionPermission
 from .models import Contributor
 from .serializers import ContributorSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class ContributorList(generics.ListCreateAPIView):
@@ -28,7 +29,7 @@ class ContributorList(generics.ListCreateAPIView):
     search_fields = [
         'user',
         'project',
-        'creator'
+        'creator',
     ]
 
     def perform_create(self, serializer):
