@@ -30,14 +30,15 @@ class ProfileList(generics.ListAPIView):
         # Creator of projects selected user is a contributor for
         'user__projects__contributors__profile',
         # Contributors to selected user's projects
-        'user__contrib_projects__creator__profile'
+        'user__contrib_projects__creator__profile',
         # Email of selected profile
-        'email'
+        'user__email',
     ]
 
     search_fields = [
         'first_name',
-        'last_name'
+        'last_name',
+        'email',
     ]
 
     ordering_fields = [
