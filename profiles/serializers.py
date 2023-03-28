@@ -16,11 +16,14 @@ class ProfileSerializer(serializers.ModelSerializer):
     created_projects = serializers.SerializerMethodField()
     created_projects_list = serializers.SerializerMethodField()
     email_verified = serializers.ReadOnlyField()
-    # menu_open = serializers.ReadOnlyField()
+    email = serializers.SerializerMethodField()
 
     def get_is_current_user(self, obj):
         request = self.context['request']
         return request.user == obj.user
+
+    def get_email(self, obj):
+        return obj.user.email
 
     # Help from
     # https://stackoverflow.com/questions/14639106/how-can-i-retrieve-a-list-of-field-for-all-objects-in-django
@@ -36,5 +39,5 @@ class ProfileSerializer(serializers.ModelSerializer):
             'id', 'user', 'first_name', 'last_name', 'created_on',
             'bio', 'is_current_user', 'created_projects_count', 'created_projects',
             'contrib_projects_count', 'created_projects_list', 'menu_open',
-            'email_verified'
+            'email_verified', 'email'
         ]

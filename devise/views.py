@@ -59,9 +59,6 @@ class CustomConfirmEmailView(ConfirmEmailView):
         except Http404:
             self.object = None
         return Http404
-        # self.object = self.get_object()
-        # if settings.ACCOUNT_CONFIRM_EMAIL_ON_GET:
-        #     return self.post(*args, **kwargs)
 
     def get_redirect_url(self):
         return redirect('/')
