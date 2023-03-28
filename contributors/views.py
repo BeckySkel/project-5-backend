@@ -12,7 +12,7 @@ class ContributorList(generics.ListCreateAPIView):
     serializer_class = ContributorSerializer
 
     def perform_create(self, serializer):
-        serializer.save()
+        serializer.save(creator=self.request.user)
 
 
 class ContributorDetail(generics.RetrieveDestroyAPIView):
