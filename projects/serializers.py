@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Project, Task
+from contributors.models import Contributor
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -16,12 +17,23 @@ class ProjectSerializer(serializers.ModelSerializer):
     task_count = serializers.ReadOnlyField()
     profile_names = serializers.SerializerMethodField()
     task_ids = serializers.SerializerMethodField()
+    contributor_instances = serializers.SerializerMethodField()
+    is_contrib = serializers.SerializerMethodField()
 
     def validate_contributors(self, value):
         request = self.context['request']
         if request.user in value:
             raise serializers.ValidationError('Cannot add self as contributor')
         return value
+
+    def get_contributor_instances(self, obj):
+        request = self.context['request']
+        return obj.contributor.all().values_list('user', flat=True)
+
+    def get_is_contrib(self, obj):
+        request = self.context['request']
+        contributors = obj.contributor.all().values_list('user', flat=True)
+        return request.user in contributors
 
     def get_profile_names(self, obj):
         contribs = obj.contributors.all()
@@ -46,7 +58,8 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'url_id', 'title', 'description', 'creator', 'profile_id',
             'contributors', 'profile_names', 'task_count', 'task_ids',
-            'created_on', 'updated_on', 'is_creator', 'is_contributor'
+            'created_on', 'updated_on', 'is_creator', 'is_contributor',
+            'contributor_instances', 'is_contrib'
         ]
 
 
