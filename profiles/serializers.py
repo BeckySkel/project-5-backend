@@ -12,7 +12,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     is_current_user = serializers.SerializerMethodField()
     created_projects_count = serializers.ReadOnlyField()
-    contrib_projects_count = serializers.ReadOnlyField()
+    # contrib_projects_count = serializers.ReadOnlyField()
     created_projects = serializers.SerializerMethodField()
     created_projects_list = serializers.SerializerMethodField()
     email_verified = serializers.ReadOnlyField()
@@ -37,7 +37,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = [
             'id', 'user', 'first_name', 'last_name', 'created_on',
-            'bio', 'is_current_user', 'created_projects_count', 'created_projects',
-            'contrib_projects_count', 'created_projects_list', 'menu_open',
+            'bio', 'is_current_user', 'created_projects_count',
+            'created_projects', 'created_projects_list', 'menu_open',
             'email_verified', 'email'
         ]

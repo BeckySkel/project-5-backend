@@ -17,7 +17,7 @@ class ProfileList(generics.ListAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.annotate(
         created_projects_count=Count('user__projects', distinct=True),
-        contrib_projects_count=Count('user__contrib_projects', distinct=True)
+        # contrib_projects_count=Count('user__contrib_projects', distinct=True)
     ).order_by('-created_on')
 
     filter_backends = [
@@ -28,9 +28,9 @@ class ProfileList(generics.ListAPIView):
 
     filterset_fields = [
         # Creator of projects selected user is a contributor for
-        'user__projects__contributors__profile',
+        # 'user__projects__contributors__profile',
         # Contributors to selected user's projects
-        'user__contrib_projects__creator__profile',
+        # 'user__contrib_projects__creator__profile',
         # Email of selected profile
         'user__email',
     ]
@@ -44,7 +44,7 @@ class ProfileList(generics.ListAPIView):
     ordering_fields = [
         'created_on',
         'created_projects_count',
-        'contrib_projects_count'
+        # 'contrib_projects_count'
     ]
 
 
@@ -56,5 +56,5 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.annotate(
         created_projects_count=Count('user__projects', distinct=True),
-        contrib_projects_count=Count('user__contrib_projects', distinct=True)
+        # contrib_projects_count=Count('user__contrib_projects', distinct=True)
     )

@@ -7,15 +7,17 @@ class ContributorSerializer(serializers.ModelSerializer):
     """
     Serializer for the Contributor model
     """
-    profile_id = serializers.ReadOnlyField(source='user.profile.id')
+    user_profile_id = serializers.ReadOnlyField(source='user.profile.id')
+    creator = serializers.ReadOnlyField(source='user.id')
+    creator_profile_id = serializers.ReadOnlyField(source='creator.profile.id')
     user_username = serializers.ReadOnlyField(source='user.username')
     project_name = serializers.ReadOnlyField(source='project.title')
     is_creator = serializers.SerializerMethodField()
-    is_contributor = serializers.SerializerMethodField()
-    creator = serializers.ReadOnlyField(source='creator.username')
+    is_user = serializers.SerializerMethodField()
+    creator_username = serializers.ReadOnlyField(source='creator.username')
     is_project_creator = serializers.SerializerMethodField()
 
-    def get_is_contributor(self, obj):
+    def get_is_user(self, obj):
         request = self.context['request']
         return request.user == obj.user
 
@@ -27,8 +29,9 @@ class ContributorSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.project.creator
 
-    def validate_contributor(self, value):
+    def validate_user(self, value):
         request = self.context['request']
+        print(value)
         if request.user == value:
             raise serializers.ValidationError('Cannot add self as contributor')
         return value
@@ -44,9 +47,9 @@ class ContributorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contributor
         fields = [
-            'id', 'user', 'user_username', 'profile_id', 'project',
-            'project_name', 'is_creator', 'is_contributor', 'creator',
-            'is_project_creator'
+            'id', 'user', 'user_username', 'user_profile_id', 'project',
+            'project_name', 'creator', 'creator_username',
+            'creator_profile_id', 'is_user', 'is_project_creator', 'is_creator'
         ]
 
     def create(self, validated_data):

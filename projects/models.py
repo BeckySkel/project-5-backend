@@ -14,12 +14,6 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='projects'
         )
-    # delete
-    contributors = models.ManyToManyField(
-        User,
-        related_name='contrib_projects',
-        blank=True
-    )
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from .models import Project, Task
 from contributors.models import Contributor
+from contributors.serializers import ContributorSerializer
 from django.contrib.auth.models import User
+import json
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -16,31 +18,14 @@ class ProjectSerializer(serializers.ModelSerializer):
     profile_id = serializers.ReadOnlyField(source='creator.profile.id')
     task_count = serializers.ReadOnlyField()
     task_ids = serializers.SerializerMethodField()
-
-    contributor_instances = serializers.SerializerMethodField()
-    contributor_names = serializers.SerializerMethodField()
+    contributors = ContributorSerializer(many=True)
     is_contrib = serializers.SerializerMethodField()
-
-    def validate_contributors(self, value):
-        request = self.context['request']
-        if request.user in value:
-            raise serializers.ValidationError('Cannot add self as contributor')
-        return value
-
-    def get_contributor_instances(self, obj):
-        request = self.context['request']
-        return obj.contributor.all().values_list('user', flat=True)
-
-    def get_contributor_names(self, obj):
-        request = self.context['request']
-        users = obj.contributor.values_list('user', flat=True)
-        for user in users:
-            return User.objects.filter(id=user).values_list('username', flat=True)
 
     def get_is_contrib(self, obj):
         request = self.context['request']
-        contributors = obj.contributor.all().values_list('user', flat=True)
-        return request.user in contributors
+        # contributors = obj.contributor.all().values_list('user', flat=True)
+        # return request.user in contributors
+        return True
 
     def get_is_creator(self, obj):
         request = self.context['request']
@@ -56,8 +41,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'description', 'creator', 'profile_id',
             'contributors', 'task_count', 'task_ids',
-            'created_on', 'updated_on', 'is_creator',
-            'contributor_instances', 'contributor_names', 'is_contrib'
+            'created_on', 'updated_on', 'is_creator', 'is_contrib'
         ]
 
 
@@ -77,7 +61,8 @@ class TaskSerializer(serializers.ModelSerializer):
     def validate_project(self, value):
         user = self.context['request'].user
         project = Project.objects.get(pk=value.id)
-        contrib = user in project.contributors.all()
+        contrib = user.id in project.contributors.all()\
+            .values_list('user', flat=True)
         creator = user == project.creator
         if not contrib and not creator:
             raise serializers.ValidationError('You do not have\
@@ -94,7 +79,8 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def get_is_project_contrib(self, obj):
         request = self.context['request']
-        return request.user in obj.project.contributors.all()
+        return request.user.id in obj.project.contributors.all()\
+            .values_list('user', flat=True)
 
     class Meta:
         model = Task
