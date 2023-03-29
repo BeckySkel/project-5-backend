@@ -31,6 +31,8 @@ class ProfileList(generics.ListAPIView):
         'user__projects__contributors__user__profile',
         # Contributors to selected user's projects
         'user__contributing_to__creator__profile',
+        # Emails
+        'user__email',
     ]
 
     search_fields = [
