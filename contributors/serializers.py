@@ -15,7 +15,6 @@ class ContributorSerializer(serializers.ModelSerializer):
 
     def validate_user(self, value):
         request = self.context['request']
-        print(value)
         if request.user == value:
             raise serializers.ValidationError('Cannot add self as contributor')
         return value
