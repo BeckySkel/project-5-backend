@@ -79,7 +79,7 @@
 ### Testing
 - Throughout the project, I relied on Djangos built in error handling in debug mode as well as printing to the terminal.
 - Code was also run through validators and automatic tests were run through Django.
-- Please follow [this link](documents/TESTING.md) for full list of tests carried out on this website
+- Please follow [this link](documents/TESTING.md) for full list of tests carried out on the backend of the app
 
 ---
 ## Structure
