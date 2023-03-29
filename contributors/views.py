@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 class ContributorList(generics.ListCreateAPIView):
     """
+    Lists all contributors
     """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Contributor.objects.all()
@@ -26,18 +27,13 @@ class ContributorList(generics.ListCreateAPIView):
         'user__profile'
     ]
 
-    search_fields = [
-        'user',
-        'project',
-        'creator',
-    ]
-
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
 
 
 class ContributorDetail(generics.RetrieveDestroyAPIView):
     """
+    Retrieve contributor instance and update if owner
     """
     permission_classes = [ContributorDeletionPermission]
     queryset = Contributor.objects.all()

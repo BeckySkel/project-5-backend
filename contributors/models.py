@@ -5,6 +5,8 @@ from projects.models import Project
 
 class Contributor(models.Model):
     """
+    Model to store project contributors
+    All 3 fields must be unique together (no duplicates)
     """
     user = models.ForeignKey(
         User, related_name='contributing_to', on_delete=models.CASCADE

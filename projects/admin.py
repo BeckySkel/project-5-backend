@@ -8,7 +8,7 @@ class ProjectAdmin(admin.ModelAdmin):
     Admin for Project model
     """
     list_display = ('title', 'creator', 'updated_on')
-    search_fields = ['title', 'creator']
+    search_fields = ['title', 'description']
     list_filter = ('created_on', 'updated_on',)
 
 
@@ -18,5 +18,5 @@ class TaskAdmin(admin.ModelAdmin):
     Admin for Task model
     """
     list_display = ('summary', 'creator', 'project', 'updated_on')
-    search_fields = ['summary', 'creator', 'body']
+    search_fields = ['summary', 'body']
     list_filter = ('created_on', 'updated_on')

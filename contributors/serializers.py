@@ -5,29 +5,13 @@ from .models import Contributor
 
 class ContributorSerializer(serializers.ModelSerializer):
     """
-    Serializer for the Contributor model
+    Serializer for the Contributor model.
+    Returns boolean value for if the profile belongs to the current user.
+    Displays a created projects list.
     """
-    user_profile_id = serializers.ReadOnlyField(source='user.profile.id')
-    creator = serializers.ReadOnlyField(source='creator.id')
-    creator_profile_id = serializers.ReadOnlyField(source='creator.profile.id')
+    # Contributor data
     user_username = serializers.ReadOnlyField(source='user.username')
-    project_name = serializers.ReadOnlyField(source='project.title')
-    is_creator = serializers.SerializerMethodField()
-    is_user = serializers.SerializerMethodField()
-    creator_username = serializers.ReadOnlyField(source='creator.username')
-    is_project_creator = serializers.SerializerMethodField()
-
-    def get_is_user(self, obj):
-        request = self.context['request']
-        return request.user == obj.user
-
-    def get_is_creator(self, obj):
-        request = self.context['request']
-        return request.user == obj.creator
-
-    def get_is_project_creator(self, obj):
-        request = self.context['request']
-        return request.user == obj.project.creator
+    user_profile_id = serializers.ReadOnlyField(source='user.profile.id')
 
     def validate_user(self, value):
         request = self.context['request']
@@ -35,6 +19,9 @@ class ContributorSerializer(serializers.ModelSerializer):
         if request.user == value:
             raise serializers.ValidationError('Cannot add self as contributor')
         return value
+
+    # Project data
+    project_title = serializers.ReadOnlyField(source='project.title')
 
     def validate_project(self, value):
         request = self.context['request']
@@ -44,11 +31,32 @@ class ContributorSerializer(serializers.ModelSerializer):
                 )
         return value
 
+    # Creator data
+    creator = serializers.ReadOnlyField(source='creator.id')
+    creator_username = serializers.ReadOnlyField(source='creator.username')
+    creator_profile_id = serializers.ReadOnlyField(source='creator.profile.id')
+    # User boolean data
+    is_user = serializers.SerializerMethodField()
+    is_project_creator = serializers.SerializerMethodField()
+    is_creator = serializers.SerializerMethodField()
+
+    def get_is_user(self, obj):
+        request = self.context['request']
+        return request.user == obj.user
+
+    def get_is_project_creator(self, obj):
+        request = self.context['request']
+        return request.user == obj.project.creator
+
+    def get_is_creator(self, obj):
+        request = self.context['request']
+        return request.user == obj.creator
+
     class Meta:
         model = Contributor
         fields = [
             'id', 'user', 'user_username', 'user_profile_id', 'project',
-            'project_name', 'creator', 'creator_username',
+            'project_title', 'creator', 'creator_username',
             'creator_profile_id', 'is_user', 'is_project_creator', 'is_creator'
         ]
 
