@@ -9,7 +9,6 @@ from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-# Projects
 class ProjectList(generics.ListCreateAPIView):
     """
     List projects, can create new if logged in
@@ -17,7 +16,8 @@ class ProjectList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = ProjectSerializer
     queryset = Project.objects.annotate(
-        task_count=Count('tasks', distinct=True)
+        task_count=Count('tasks', distinct=True),
+        contrib_count=Count('contributors', distinct=True)
     ).order_by('-created_on')
 
     filter_backends = [
@@ -32,7 +32,7 @@ class ProjectList(generics.ListCreateAPIView):
         # Projects the selected user created
         'creator__profile',
         # Projects the selected user is a contributor on
-        # 'contributors__profile'
+        'contributors__user__profile'
     ]
 
     search_fields = [
@@ -43,7 +43,8 @@ class ProjectList(generics.ListCreateAPIView):
     ordering_fields = [
         'created_on',
         'updated_on',
-        'task_count'
+        'task_count',
+        'contrib_count'
     ]
 
     def perform_create(self, serializer):
@@ -57,11 +58,11 @@ class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = ProjectSerializer
     queryset = Project.objects.annotate(
-        task_count=Count('tasks', distinct=True)
+        task_count=Count('tasks', distinct=True),
+        contrib_count=Count('contributors', distinct=True)
     )
 
 
-# Tasks
 class TaskList(generics.ListCreateAPIView):
     """
     List tasks, can create new if logged in
@@ -82,7 +83,7 @@ class TaskList(generics.ListCreateAPIView):
         # Tasks submitted to the selected user's created projects
         'project__creator__profile',
         # Tasks submitted to projects the selected user is a contributor on
-        # 'project__contributors__profile',
+        'project__contributors__user__profile',
         # Tasks in the selected project
         'project',
         # Tasks based on completed status
@@ -97,7 +98,6 @@ class TaskList(generics.ListCreateAPIView):
     ordering_fields = [
         'created_on',
         'updated_on',
-        'due_date'
     ]
 
     def perform_create(self, serializer):
@@ -106,7 +106,7 @@ class TaskList(generics.ListCreateAPIView):
 
 class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Retrieve project and edit or delete if owner
+    Retrieve task and edit or delete if owner
     """
     permission_classes = [IsContribOrReadOnly]
     serializer_class = TaskSerializer

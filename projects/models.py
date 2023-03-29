@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Project(models.Model):
     """
     Model to store user-created projects
-    Links to creator (user instance)
+    Links to creator (User instance)
     """
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
@@ -27,11 +27,10 @@ class Project(models.Model):
 class Task(models.Model):
     """
     Model to store tasks for projects
-    Links to creator (user instance)
+    Links to creator (User instance) and project (Project instance) 
     """
     summary = models.CharField(max_length=100)
     body = models.TextField()
-    due_date = models.DateTimeField(blank=True, null=True)
     completed = models.BooleanField(default=False)
     creator = models.ForeignKey(
         User,

@@ -8,7 +8,7 @@ class ContributorSerializer(serializers.ModelSerializer):
     Serializer for the Contributor model
     """
     user_profile_id = serializers.ReadOnlyField(source='user.profile.id')
-    creator = serializers.ReadOnlyField(source='user.id')
+    creator = serializers.ReadOnlyField(source='creator.id')
     creator_profile_id = serializers.ReadOnlyField(source='creator.profile.id')
     user_username = serializers.ReadOnlyField(source='user.username')
     project_name = serializers.ReadOnlyField(source='project.title')

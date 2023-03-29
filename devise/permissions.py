@@ -18,19 +18,23 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 # Custom permission from CI walkthrough project
 class IsContribOrReadOnly(permissions.BasePermission):
     """
-    Custom permission to allow only the owner or contributors of
-    an item to edit it
+    Custom permission to allow only the creator or contributors of
+    a project to edit the tasks or project itself
     """
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        iscreator = obj.creator == request.user
         try:
-            iscontrib = request.user in obj.contributors.all()
+            # if item is project
+            iscreator = obj.creator == request.user
+            iscontrib = request.user in obj.contributors.all()\
+                .values_list('user', flat=True)
         except AttributeError:
+            # if item is task
             iscreator = obj.project.creator == request.user
-            iscontrib = request.user in obj.project.contributors.all()
+            iscontrib = request.user.id in obj.project.contributors.all()\
+                .values_list('user', flat=True)
 
         permission = iscreator or iscontrib
         return permission
@@ -38,8 +42,8 @@ class IsContribOrReadOnly(permissions.BasePermission):
 
 class ContributorDeletionPermission(permissions.BasePermission):
     """
-    Custom permission to allow only the owner or contributors of
-    an item to edit it
+    Custom permission to allow only the creator or user of
+    a Contribuotr instance to edit it
     """
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:

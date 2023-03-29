@@ -19,4 +19,4 @@ class TaskAdmin(admin.ModelAdmin):
     """
     list_display = ('summary', 'creator', 'project', 'updated_on')
     search_fields = ['summary', 'creator', 'body']
-    list_filter = ('created_on', 'updated_on', 'due_date')
+    list_filter = ('created_on', 'updated_on')

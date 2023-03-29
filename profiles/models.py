@@ -5,7 +5,7 @@ from cloudinary.models import CloudinaryField
 
 class Profile(models.Model):
     """
-    Model to store extra information about the user.
+    Model to store extra information about the user (User instance)
     Created/updated/deleted automatically when a new user is
     added/updated/deleted via signals.py
     """
