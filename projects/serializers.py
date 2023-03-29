@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Project, Task
 from contributors.models import Contributor
+from django.contrib.auth.models import User
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -13,11 +14,11 @@ class ProjectSerializer(serializers.ModelSerializer):
     creator = serializers.ReadOnlyField(source='creator.username')
     is_creator = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='creator.profile.id')
-    is_contributor = serializers.SerializerMethodField()
     task_count = serializers.ReadOnlyField()
-    profile_names = serializers.SerializerMethodField()
     task_ids = serializers.SerializerMethodField()
+
     contributor_instances = serializers.SerializerMethodField()
+    contributor_names = serializers.SerializerMethodField()
     is_contrib = serializers.SerializerMethodField()
 
     def validate_contributors(self, value):
@@ -30,23 +31,20 @@ class ProjectSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return obj.contributor.all().values_list('user', flat=True)
 
+    def get_contributor_names(self, obj):
+        request = self.context['request']
+        users = obj.contributor.values_list('user', flat=True)
+        for user in users:
+            return User.objects.filter(id=user).values_list('username', flat=True)
+
     def get_is_contrib(self, obj):
         request = self.context['request']
         contributors = obj.contributor.all().values_list('user', flat=True)
         return request.user in contributors
 
-    def get_profile_names(self, obj):
-        contribs = obj.contributors.all()
-        profile_names = [c.username for c in contribs]
-        return profile_names
-
     def get_is_creator(self, obj):
         request = self.context['request']
         return request.user == obj.creator
-
-    def get_is_contributor(self, obj):
-        request = self.context['request']
-        return request.user in obj.contributors.all()
 
     def get_task_ids(self, obj):
         tasks = obj.tasks.all()
@@ -56,10 +54,10 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = [
-            'id', 'url_id', 'title', 'description', 'creator', 'profile_id',
-            'contributors', 'profile_names', 'task_count', 'task_ids',
-            'created_on', 'updated_on', 'is_creator', 'is_contributor',
-            'contributor_instances', 'is_contrib'
+            'id', 'title', 'description', 'creator', 'profile_id',
+            'contributors', 'task_count', 'task_ids',
+            'created_on', 'updated_on', 'is_creator',
+            'contributor_instances', 'contributor_names', 'is_contrib'
         ]
 
 

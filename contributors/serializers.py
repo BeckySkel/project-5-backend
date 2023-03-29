@@ -8,6 +8,7 @@ class ContributorSerializer(serializers.ModelSerializer):
     Serializer for the Contributor model
     """
     profile_id = serializers.ReadOnlyField(source='user.profile.id')
+    user_username = serializers.ReadOnlyField(source='user.username')
     project_name = serializers.ReadOnlyField(source='project.title')
     is_creator = serializers.SerializerMethodField()
     is_contributor = serializers.SerializerMethodField()
@@ -43,8 +44,9 @@ class ContributorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contributor
         fields = [
-            'id', 'user', 'profile_id', 'project', 'project_name',
-            'is_creator', 'is_contributor', 'creator', 'is_project_creator'
+            'id', 'user', 'user_username', 'profile_id', 'project',
+            'project_name', 'is_creator', 'is_contributor', 'creator',
+            'is_project_creator'
         ]
 
     def create(self, validated_data):
