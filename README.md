@@ -73,6 +73,8 @@
 - [#6](https://github.com/BeckySkel/project-5-frontend/issues/6) As a **project member**, I can **comment and like/vote on added tasks/ideas** so that **I can share my opinion with the team**.
 - [#13](https://github.com/BeckySkel/project-5-frontend/issues/13) As a **user**, I can **tag other users in my comments** so that **they are alerted of it**.
 
+
+Link to [User Stories Kanban Board](https://github.com/users/BeckySkel/projects/4)
 ---
 ## Scope
 
@@ -128,6 +130,46 @@
 
 ### Deployment
 - This site was developed using [Gitpod](https://www.gitpod.io/), stored on [Github](https://github.com/) and deployed with [Heroku](https://dashboard.heroku.com/apps).
+
+- Creating the Django App
+    1. Use the [Code Intitute](https://github.com/Code-Institute-Org/gitpod-full-template) template repo to create new repository
+    2. Signup up for Cloudinary
+    2. Open your workspace in Gitpod
+    3. Install Django from the terminal with command "pip3 install 'django<4'"
+    4. Follow up with "django-admin startproject devise ."
+    5. Install dependencies from list below with "pip3 install"
+        - asgiref==3.6.0
+        - backports.zoneinfo==0.2.1
+        - cloudinary==1.32.0
+        - dj-database-url==0.5.0
+        - dj-rest-auth==2.1.9
+        - Django==3.2.18
+        - django-allauth==0.52.0
+        - django-cloudinary-storage==0.3.0
+        - django-cors-headers==3.14.0
+        - django-filter==22.1
+        - djangorestframework==3.14.0
+        - djangorestframework-simplejwt==5.2.2
+        - gunicorn==20.1.0
+        - oauthlib==3.2.2
+        - Pillow==9.4.0
+        - psycopg2==2.9.5
+        - PyJWT==2.6.0
+        - python3-openid==3.2.0
+        - pytz==2022.7.1
+        - requests-oauthlib==1.3.1
+        - sqlparse==0.4.3
+    6. Add newly installed apps to settings.py
+    7. Create env.py and create the following environment variables
+        - CLOUDINARY_URL
+        - SECRET_KEY
+        - DEV
+        - DATABASE_URL
+        - ALLOWED_HOST
+        - EMAIL_USER
+        - EMAIL_PASSWORD
+    8. Create Procfile with cotents of "release: python manage.py makemigrations && python manage.py migrate
+        web: gunicorn devise.wsgi"
 
 - Debugging on Gitpod:
     1. In the terminal, type "python3 manage.py runserver" and press enter to begin the application
