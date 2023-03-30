@@ -4,6 +4,7 @@ from contributors.models import Contributor
 from contributors.serializers import ContributorSerializer
 from django.contrib.auth.models import User
 import json
+from django.db.models import Count
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -20,12 +21,17 @@ class ProjectSerializer(serializers.ModelSerializer):
     contributors = ContributorSerializer(many=True, read_only=True)
     # Task data
     task_count = serializers.ReadOnlyField()
+    completed_tasks = serializers.SerializerMethodField()
     task_ids = serializers.SerializerMethodField()
 
     def get_task_ids(self, obj):
         tasks = obj.tasks.all()
         task_ids = [t.id for t in tasks]
         return task_ids
+
+    def get_completed_tasks(self, obj):
+        completed = obj.tasks.filter(completed=True).values_list('id')
+        return completed
 
     # User boolean data
     is_creator = serializers.SerializerMethodField()
@@ -45,7 +51,8 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'description', 'creator', 'profile_id',
             'contrib_count', 'contributors', 'task_count', 'task_ids',
-            'created_on', 'updated_on', 'is_creator', 'is_contrib'
+            'completed_tasks', 'created_on', 'updated_on', 'is_creator',
+            'is_contrib'
         ]
 
 
